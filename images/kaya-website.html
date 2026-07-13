@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAYA — Fine Jewellery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --dusk:       #2B2118;
+    --terracotta: #C9956A;
+    --skin:       #E8C9A0;
+    --ivory:      #F4EDE3;
+    --earth:      #7A5C47;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ivory);
+    color: var(--dusk);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--terracotta);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 60px;
+    mix-blend-mode: normal;
+  }
+  nav.scrolled { background: rgba(244,237,227,0.92); backdrop-filter: blur(12px); padding: 18px 60px; transition: padding 0.3s, background 0.3s; }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 8px;
+    color: var(--dusk);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dusk);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-right { display: flex; gap: 24px; align-items: center; }
+  .nav-icon { width: 18px; height: 18px; opacity: 0.6; cursor: pointer; transition: opacity 0.2s; }
+  .nav-icon:hover { opacity: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    background: var(--dusk);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,149,106,0.15);
+  }
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,149,106,0.1);
+  }
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(80px, 10vw, 130px);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--ivory);
+    letter-spacing: -2px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+  .hero-sub {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(244,237,227,0.5);
+    max-width: 320px;
+    letter-spacing: 0.5px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ivory);
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+    transition: gap 0.3s;
+  }
+  .hero-cta:hover { gap: 24px; }
+  .hero-cta-line { width: 40px; height: 1px; background: var(--terracotta); display: inline-block; transition: width 0.3s; }
+  .hero-cta:hover .hero-cta-line { width: 60px; }
+
+  .hero-right {
+    background: var(--skin);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-image-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px;
+    position: relative;
+  }
+  .hero-ring {
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    border: 1px solid rgba(43,33,24,0.2);
+    position: absolute;
+    animation: slowSpin 20s linear infinite;
+  }
+  .hero-ring:nth-child(2) {
+    width: 180px; height: 180px;
+    border-color: rgba(43,33,24,0.12);
+    animation-direction: reverse;
+    animation-duration: 15s;
+  }
+  .hero-ring-dot {
+    width: 6px; height: 6px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    position: absolute;
+    top: -3px; left: 50%;
+    transform: translateX(-50%);
+  }
+  .hero-center-text {
+    font-family: var(--serif);
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--dusk);
+    opacity: 0.5;
+    text-transform: uppercase;
+    z-index: 1;
+    text-align: center;
+    line-height: 2;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-scroll span {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dusk);
+    opacity: 0.4;
+    writing-mode: vertical-rl;
+  }
+  .hero-scroll-line {
+    width: 1px;
+    height: 60px;
+    background: var(--terracotta);
+    opacity: 0.4;
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    background: var(--terracotta);
+    padding: 18px 0;
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--ivory);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    flex-shrink: 0;
+  }
+  .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--ivory); opacity: 0.5; flex-shrink: 0; }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    padding: 140px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: center;
+    background: var(--ivory);
+  }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 32px;
+  }
+  .philosophy-heading {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--dusk);
+  }
+  .philosophy-heading em { font-style: italic; color: var(--earth); }
+  .philosophy-right { display: flex; flex-direction: column; gap: 32px; }
+  .philosophy-body {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--earth);
+    max-width: 480px;
+  }
+  .philosophy-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(122,92,71,0.15);
+    border: 1px solid rgba(122,92,71,0.15);
+  }
+  .stat {
+    background: var(--ivory);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .stat-number {
+    font-family: var(--serif);
+    font-size: 38px;
+    font-weight: 300;
+    color: var(--dusk);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--earth);
+    opacity: 0.7;
+  }
+
+  /* COLLECTIONS */
+  .collections {
+    background: var(--dusk);
+    padding: 120px 60px;
+  }
+  .collections-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+  .collections-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 300;
+    color: var(--ivory);
+    line-height: 1.1;
+  }
+  .collections-title em { font-style: italic; color: var(--terracotta); }
+  .view-all {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: gap 0.3s;
+    white-space: nowrap;
+  }
+  .view-all:hover { gap: 20px; }
+  .view-all-line { width: 30px; height: 1px; background: var(--terracotta); }
+
+  .collections-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2px;
+  }
+  .collection-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: var(--earth);
+    cursor: pointer;
+  }
+  .collection-card:first-child { aspect-ratio: auto; }
+  .collection-bg {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.6s ease;
+  }
+  .collection-card:hover .collection-bg { transform: scale(1.04); }
+  .collection-pattern {
+    width: 120px; height: 120px;
+    border: 1px solid rgba(244,237,227,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .collection-pattern::before {
+    content: '';
+    position: absolute;
+    width: 80px; height: 80px;
+    border: 1px solid rgba(244,237,227,0.1);
+    border-radius: 50%;
+  }
+  .collection-symbol {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: rgba(244,237,227,0.3);
+    font-style: italic;
+  }
+  .collection-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 32px 28px;
+    background: linear-gradient(to top, rgba(43,33,24,0.9) 0%, transparent 100%);
+  }
+  .collection-name {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--ivory);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  .collection-desc {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(244,237,227,0.5);
+  }
+  .collection-card:nth-child(1) { background: #3D2E22; }
+  .collection-card:nth-child(2) { background: #5C4232; }
+  .collection-card:nth-child(3) { background: #4A3527; }
+
+  /* MANIFESTO */
+  .manifesto {
+    background: var(--skin);
+    padding: 160px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .manifesto::before {
+    content: 'KAYA';
+    position: absolute;
+    font-family: var(--serif);
+    font-size: 280px;
+    font-weight: 300;
+    color: rgba(43,33,24,0.04);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 40px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .manifesto-quote {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--dusk);
+    line-height: 1.3;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .manifesto-attr {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--earth);
+    opacity: 0.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* FEATURED PIECE */
+  .featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+    background: var(--ivory);
+  }
+  .featured-visual {
+    background: var(--dusk);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 80px;
+  }
+  .featured-ornament {
+    width: 320px; height: 320px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .featured-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(201,149,106,0.2);
+  }
+  .featured-circle:nth-child(1) { width: 320px; height: 320px; }
+  .featured-circle:nth-child(2) { width: 240px; height: 240px; border-color: rgba(201,149,106,0.15); }
+  .featured-circle:nth-child(3) { width: 160px; height: 160px; border-color: rgba(201,149,106,0.25); }
+  .featured-center {
+    font-family: var(--serif);
+    font-size: 60px;
+    font-style: italic;
+    color: var(--terracotta);
+    opacity: 0.6;
+    z-index: 1;
+  }
+  .featured-tag {
+    position: absolute;
+    top: 40px; right: 40px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    border: 1px solid rgba(201,149,106,0.3);
+    padding: 8px 14px;
+  }
+  .featured-content {
+    padding: 80px 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .featured-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 300;
+    color: var(--dusk);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .featured-title em { font-style: italic; color: var(--earth); }
+  .featured-body {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--earth);
+    margin-bottom: 48px;
+    max-width: 380px;
+  }
+  .featured-price {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--dusk);
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+  .featured-price span {
+    font-size: 13px;
+    font-family: var(--sans);
+    color: var(--earth);
+    letter-spacing: 1px;
+    margin-left: 8px;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--dusk);
+    color: var(--ivory);
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 18px 40px;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+    border: 1px solid var(--dusk);
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  .btn-primary:hover { background: transparent; color: var(--dusk); }
+  .btn-outline {
+    display: inline-block;
+    background: transparent;
+    color: var(--dusk);
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 18px 40px;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+    border: 1px solid var(--dusk);
+    cursor: pointer;
+    margin-left: 12px;
+  }
+  .btn-outline:hover { background: var(--dusk); color: var(--ivory); }
+
+  /* PROCESS */
+  .process {
+    background: var(--earth);
+    padding: 120px 60px;
+  }
+  .process-header { margin-bottom: 80px; }
+  .process-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 300;
+    color: var(--ivory);
+    line-height: 1.1;
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .process-step {
+    background: rgba(244,237,227,0.06);
+    padding: 48px 36px;
+    border-top: 1px solid rgba(244,237,227,0.15);
+    transition: background 0.3s;
+  }
+  .process-step:hover { background: rgba(244,237,227,0.1); }
+  .process-num {
+    font-family: var(--serif);
+    font-size: 52px;
+    font-weight: 300;
+    color: rgba(244,237,227,0.15);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .process-step-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--ivory);
+    margin-bottom: 12px;
+    font-weight: 300;
+  }
+  .process-step-body {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(244,237,227,0.5);
+  }
+
+  /* TESTIMONIAL */
+  .testimonials {
+    background: var(--ivory);
+    padding: 140px 60px;
+  }
+  .testimonials-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .testimonial-quote {
+    font-family: var(--serif);
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--dusk);
+    line-height: 1.5;
+    margin-bottom: 32px;
+  }
+  .testimonial-author {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--earth);
+    margin-bottom: 8px;
+  }
+  .testimonial-location {
+    font-size: 11px;
+    color: var(--terracotta);
+    opacity: 0.7;
+  }
+  .testimonial-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 48px;
+  }
+  .t-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--earth);
+    opacity: 0.25;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    border: none;
+  }
+  .t-dot.active { opacity: 1; transform: scale(1.3); background: var(--terracotta); }
+
+  /* NEWSLETTER */
+  .newsletter {
+    background: var(--dusk);
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .newsletter-heading {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 300;
+    color: var(--ivory);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .newsletter-heading em { font-style: italic; color: var(--terracotta); }
+  .newsletter-sub {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(244,237,227,0.4);
+  }
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .newsletter-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(244,237,227,0.2);
+    padding: 16px 0;
+    color: var(--ivory);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 200;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .newsletter-input::placeholder { color: rgba(244,237,227,0.3); letter-spacing: 1px; }
+  .newsletter-input:focus { border-color: var(--terracotta); }
+  .newsletter-btn {
+    background: var(--terracotta);
+    color: var(--ivory);
+    border: none;
+    padding: 18px 40px;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: opacity 0.2s;
+    margin-top: 8px;
+  }
+  .newsletter-btn:hover { opacity: 0.85; }
+
+  /* FOOTER */
+  footer {
+    background: #1A1009;
+    padding: 80px 60px 40px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand-name {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: var(--ivory);
+    margin-bottom: 16px;
+  }
+  .footer-tagline {
+    font-size: 12px;
+    color: rgba(244,237,227,0.3);
+    line-height: 1.8;
+    max-width: 240px;
+    margin-bottom: 32px;
+  }
+  .footer-social {
+    display: flex;
+    gap: 20px;
+  }
+  .footer-social a {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .footer-social a:hover { opacity: 1; }
+  .footer-col-title {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(244,237,227,0.4);
+    margin-bottom: 24px;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(244,237,227,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--ivory); }
+  .footer-bottom {
+    border-top: 1px solid rgba(244,237,227,0.06);
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(244,237,227,0.2);
+    letter-spacing: 1px;
+  }
+  .footer-legal {
+    display: flex;
+    gap: 32px;
+  }
+  .footer-legal a {
+    font-size: 11px;
+    color: rgba(244,237,227,0.2);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .footer-legal a:hover { color: rgba(244,237,227,0.5); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slowSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.2; transform: scaleY(1); }
+    50% { opacity: 0.6; transform: scaleY(1.1); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">KAYA</a>
+  <ul class="nav-links">
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#process">Craft</a></li>
+    <li><a href="#contact">Visit Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Delhi · Fine Jewellery · Est. 2024</p>
+    <h1 class="hero-title">Body.<br><em>Self.</em><br>Gold.</h1>
+    <p class="hero-sub">Jewellery that doesn't adorn you — it becomes you. Rooted in Sanskrit, crafted in Delhi, worn by those who know who they are.</p>
+    <a href="#collections" class="hero-cta">
+      <span class="hero-cta-line"></span>
+      Explore Collections
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-placeholder">
+      <div class="hero-ring"><div class="hero-ring-dot"></div></div>
+      <div class="hero-ring"></div>
+      <div class="hero-center-text">
+        काया<br>
+        <span style="font-size:10px; letter-spacing:6px;">body · self</span>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item">Handcrafted in Delhi <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Sanskrit Roots <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Wear Yourself <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Body · Self · Gold <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Fine Jewellery <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Handcrafted in Delhi <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Sanskrit Roots <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Wear Yourself <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Body · Self · Gold <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Fine Jewellery <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="reveal">
+    <p class="section-label">Our Philosophy</p>
+    <h2 class="philosophy-heading">
+      Jewellery has always<br>
+      been about the<br>
+      <em>occasion.</em><br>
+      We think it's about<br>
+      the <em>person.</em>
+    </h2>
+  </div>
+  <div class="philosophy-right reveal">
+    <p class="philosophy-body">
+      KAYA — from Sanskrit, meaning <em>body, the self</em> — was born in Delhi with one question: why does jewellery only come out for weddings and festivals? The most intimate thing you can wear deserves to be worn every day, for yourself alone.
+    </p>
+    <p class="philosophy-body">
+      Every piece we make starts not with a stone or a design, but with a woman. Her posture. Her skin. The way she moves through a room. We design jewellery that disappears into who you are — and makes you more of it.
+    </p>
+    <div class="philosophy-stats">
+      <div class="stat">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Collections</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Handcrafted</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">Delhi</div>
+        <div class="stat-label">Rooted</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTIONS -->
+<section class="collections" id="collections">
+  <div class="collections-header reveal">
+    <div>
+      <p class="section-label" style="color: rgba(201,149,106,0.6);">Collections</p>
+      <h2 class="collections-title">Three ways to<br>wear <em>yourself</em></h2>
+    </div>
+    <a href="#" class="view-all">
+      <span class="view-all-line"></span>
+      View all pieces
+    </a>
+  </div>
+  <div class="collections-grid reveal">
+    <div class="collection-card">
+      <div class="collection-bg">
+        <div class="collection-pattern"><span class="collection-symbol">A</span></div>
+      </div>
+      <div class="collection-info">
+        <div class="collection-name">Angan</div>
+        <div class="collection-desc">Everyday heirlooms · 24 pieces</div>
+      </div>
+    </div>
+    <div class="collection-card">
+      <div class="collection-bg">
+        <div class="collection-pattern"><span class="collection-symbol">D</span></div>
+      </div>
+      <div class="collection-info">
+        <div class="collection-name">Deh</div>
+        <div class="collection-desc">Body-map jewellery · 16 pieces</div>
+      </div>
+    </div>
+    <div class="collection-card">
+      <div class="collection-bg">
+        <div class="collection-pattern"><span class="collection-symbol">Z</span></div>
+      </div>
+      <div class="collection-info">
+        <div class="collection-name">Zameen</div>
+        <div class="collection-desc">Earth textures · 18 pieces</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <p class="section-label reveal" style="color: var(--earth);">Manifesto</p>
+  <blockquote class="manifesto-quote reveal">
+    "Your body is not a canvas for someone else's tradition. It is the only home you will ever truly live in. Wear it like you mean it."
+  </blockquote>
+  <p class="manifesto-attr reveal">— KAYA, Delhi</p>
+</section>
+
+<!-- FEATURED PIECE -->
+<section class="featured">
+  <div class="featured-visual">
+    <span class="featured-tag">New Arrival</span>
+    <div class="featured-ornament">
+      <div class="featured-circle"></div>
+      <div class="featured-circle"></div>
+      <div class="featured-circle"></div>
+      <span class="featured-center">K</span>
+    </div>
+  </div>
+  <div class="featured-content reveal">
+    <p class="section-label">Featured Piece</p>
+    <h2 class="featured-title">The Deh<br><em>Collar</em></h2>
+    <p class="featured-body">
+      A statement collar that follows the collarbone — not fighting the body's geometry but celebrating it. Beaten gold, oxidised edge, designed to be worn with everything and nothing.
+    </p>
+    <div class="featured-price">₹18,500 <span>22kt gold · Made to order</span></div>
+    <div style="display:flex; flex-wrap:wrap; gap:0;">
+      <a href="#" class="btn-primary">Add to Wishlist</a>
+      <a href="#" class="btn-outline">View Details</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-header reveal">
+    <p class="section-label" style="color: rgba(244,237,227,0.4);">The Craft</p>
+    <h2 class="process-title">From Delhi's hands<br>to yours</h2>
+  </div>
+  <div class="process-grid reveal">
+    <div class="process-step">
+      <div class="process-num">01</div>
+      <div class="process-step-title">Listening</div>
+      <div class="process-step-body">Every piece starts with a conversation. We understand the woman before we sketch the jewellery.</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">02</div>
+      <div class="process-step-title">Sketching</div>
+      <div class="process-step-body">Our designers in Karol Bagh draw each piece by hand, guided by the body's natural geometry.</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">03</div>
+      <div class="process-step-title">Crafting</div>
+      <div class="process-step-body">Master craftsmen — karigar families who have worked gold for generations — bring each design to life.</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">04</div>
+      <div class="process-step-title">Yours</div>
+      <div class="process-step-body">Each piece is hallmarked, wrapped in hand-woven cloth, and delivered with a certificate of origin.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <p class="section-label reveal">Worn by</p>
+    <div id="testimonialContainer">
+      <blockquote class="testimonial-quote">"I bought the Angan ring for myself, on a Tuesday, for no reason. That felt like the most radical thing I'd done in years."</blockquote>
+      <p class="testimonial-author">Naina Mehta</p>
+      <p class="testimonial-location">South Delhi · Architect</p>
+    </div>
+    <div class="testimonial-dots">
+      <button class="t-dot active" onclick="setTestimonial(0)"></button>
+      <button class="t-dot" onclick="setTestimonial(1)"></button>
+      <button class="t-dot" onclick="setTestimonial(2)"></button>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="contact">
+  <div class="reveal">
+    <p class="section-label" style="color: rgba(201,149,106,0.6);">Stay close</p>
+    <h2 class="newsletter-heading">New pieces.<br><em>No noise.</em></h2>
+    <p class="newsletter-sub">We write when something beautiful is ready. Not before.</p>
+  </div>
+  <div class="newsletter-form reveal">
+    <input type="text" class="newsletter-input" placeholder="Your name">
+    <input type="email" class="newsletter-input" placeholder="Your email">
+    <button class="newsletter-btn">Join the circle</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">KAYA</div>
+      <p class="footer-tagline">Fine jewellery rooted in Sanskrit, designed in Delhi, worn by those who know who they are.</p>
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">Pinterest</a>
+        <a href="#">WhatsApp</a>
+      </div>
+    </div>
+    <div>
+      <p class="footer-col-title">Collections</p>
+      <ul class="footer-links">
+        <li><a href="#">Angan</a></li>
+        <li><a href="#">Deh</a></li>
+        <li><a href="#">Zameen</a></li>
+        <li><a href="#">New Arrivals</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Visit</p>
+      <ul class="footer-links">
+        <li><a href="#">Hauz Khas Village</a></li>
+        <li><a href="#">Khan Market</a></li>
+        <li><a href="#">Book Appointment</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">More</p>
+      <ul class="footer-links">
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Karigar Programme</a></li>
+        <li><a href="#">Care Guide</a></li>
+        <li><a href="#">Gifting</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2024 KAYA Fine Jewellery. Delhi, India.</p>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Shipping</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 80);
+  });
+  document.querySelectorAll('a, button, .collection-card, .tagline-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '50px'; ring.style.height = '50px'; ring.style.opacity = '0.4'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; ring.style.opacity = '0.6'; });
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Testimonials
+  const testimonials = [
+    { quote: '"I bought the Angan ring for myself, on a Tuesday, for no reason. That felt like the most radical thing I\'d done in years."', name: 'Naina Mehta', loc: 'South Delhi · Architect' },
+    { quote: '"I gifted my daughter the Deh collar for her birthday. She cried. I think I finally understood her."', name: 'Rekha Kapoor', loc: 'Punjabi Bagh · homemaker' },
+    { quote: '"KAYA is the first Indian jewellery brand that feels like it was made for me — not for my wedding."', name: 'Aisha Siddiqui', loc: 'Hauz Khas · Fashion designer' }
+  ];
+  function setTestimonial(i) {
+    const c = document.getElementById('testimonialContainer');
+    c.style.opacity = '0';
+    setTimeout(() => {
+      c.innerHTML = `<blockquote class="testimonial-quote">${testimonials[i].quote}</blockquote><p class="testimonial-author">${testimonials[i].name}</p><p class="testimonial-location">${testimonials[i].loc}</p>`;
+      c.style.opacity = '1';
+    }, 300);
+    document.querySelectorAll('.t-dot').forEach((d, j) => d.classList.toggle('active', i === j));
+  }
+  document.getElementById('testimonialContainer').style.transition = 'opacity 0.3s';
+</script>
+</body>
+</html>
