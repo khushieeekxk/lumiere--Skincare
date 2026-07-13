@@ -30,9 +30,17 @@ git clone https://github.com/khushieeekxk/lumiere--Skincare.git
 cd lumiere--Skincare
 ```
 
-## Screenshots
 
-*(Add a screenshot or two of the homepage/product page here for visual appeal)*
+
+
+
+
+
+
+
+
+
+
 
 ---
 
