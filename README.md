@@ -23,7 +23,7 @@ A full-featured skincare e-commerce website built as a single-page experience �
 
 ## Live Demo
 
-🔗 [View Lumière live](https://khushieeekxk.github.io/lumiere--Skincare/)
+🔗 (https://khushieeekxk.github.io/lumiere--Skincare/)
 
 ## Getting Started
 
