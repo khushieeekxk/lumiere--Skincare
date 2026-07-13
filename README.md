@@ -13,7 +13,7 @@ A full-featured skincare e-commerce website built as a single-page experience �
 
 ## Live Demo
 
-🔗 (https://lumiere-skincareweb.netlify.app/)e)
+🔗 (https://lumiere-skincareweb.netlify.app/)
 
 ## Tech Stack
 
