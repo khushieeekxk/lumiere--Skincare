@@ -11,6 +11,10 @@ A full-featured skincare e-commerce website built as a single-page experience �
 - 🖼️ **Product Image Carousels** — Multiple images per product with smooth carousel navigation
 - 📱 **Responsive Design** — Works across desktop and mobile screens
 
+## Live Demo
+
+🔗 (https://lumiere-skincareweb.netlify.app/)e)
+
 ## Tech Stack
 
 - HTML5
