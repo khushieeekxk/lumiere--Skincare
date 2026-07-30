@@ -23,7 +23,7 @@ A full-featured skincare e-commerce website built as a single-page experience �
 
 ## Live Demo
 
-🔗 (https://khushieeekxk.github.io/lumiere--Skincare/)
+🔗 (new-lumiere.netlify.app)
 
 ## Getting Started
 
