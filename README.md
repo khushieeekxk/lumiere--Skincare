@@ -23,7 +23,7 @@ A full-featured skincare e-commerce website built as a single-page experience �
 
 ## Live Demo
 
-🔗 (new-lumiere.netlify.app)
+🔗 ([new-lumiere.netlify.app](https://new-lumiere.netlify.app/))
 
 ## Getting Started
 
